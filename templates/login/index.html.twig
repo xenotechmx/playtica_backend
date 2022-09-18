@@ -23,6 +23,13 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="login-wrap p-0">
                         <h3 class="mb-4 text-center">Ingresa tus datos</h3>
+
+                        {% if error %}
+                            <div>
+                                {{ error.messageKey|trans(error.messageData, 'security') }}
+                            </div>
+                        {% endif %}
+
                         <form action="{{ path('app_login') }}" class="signin-form" method="post">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="username" name="_username" placeholder="Usuario" value="{{ last_username }}" />

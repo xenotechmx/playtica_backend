@@ -8334,7 +8334,7 @@ textarea.form-control {
     outline: none; }
   .btn.btn-primary {
     background: #f9e507 !important;
-    border: 1px solid #00072c !important;
+    /* border: 1px solid #00072c !important; */
     color: #000 !important;
     }
     .btn.btn-primary:hover {
