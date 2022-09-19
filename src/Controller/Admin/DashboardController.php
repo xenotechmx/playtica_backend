@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Branch;
 use App\Controller\Admin\BranchCrudController;
+use App\Entity\Visitor;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -31,6 +32,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {            
+        yield MenuItem::linkToCrud('Visitantes', 'fas fa-child', Visitor::class);
         yield MenuItem::linkToCrud('Sucursales', 'fas fa-warehouse', Branch::class)->setPermission('ROLE_ADMIN');
 
         yield MenuItem::section('');

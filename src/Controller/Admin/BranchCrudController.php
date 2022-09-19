@@ -44,15 +44,7 @@ class BranchCrudController extends AbstractCrudController
             );
         ;
     }
-
-    public function configureFilters(Filters $filters): Filters{
-        return $filters
-            ->add('name')
-            ->add('phone')
-            ->add('maxVisitors')
-            ->add('address');
-    }
-
+    
     public function configureFields(string $pageName): iterable
     {
         return [            
@@ -61,5 +53,13 @@ class BranchCrudController extends AbstractCrudController
             IntegerField::new("maxVisitors", "Número máximo de visitantes")->setSortable(true)->setColumns(4),
             TextareaField::new("address", "Dirección")->setColumns(6)->hideOnIndex()
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters{
+        return $filters
+            ->add('name')
+            ->add('phone')
+            ->add('maxVisitors')
+            ->add('address');
     }
 }
