@@ -33,8 +33,7 @@ class VisitorCrudController extends AbstractCrudController
         return $actions
             ->add(Crud::PAGE_NEW, Action::INDEX)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->disable(Action::DELETE)
-        ;
+            ->disable(Action::DELETE);
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -43,7 +42,7 @@ class VisitorCrudController extends AbstractCrudController
             ->showEntityActionsInlined()
             ->setEntityLabelInPlural("Visitantes")
             ->setEntityLabelInSingular("Visitante")
-            ->setSearchFields(['firstName', 'lastName'])
+            ->setSearchFields(['firstName', 'lastName', 'birthday'])
             ->setPageTitle(
                 "detail",
                 fn(Visitor $visitor) => (string) $visitor
@@ -52,7 +51,6 @@ class VisitorCrudController extends AbstractCrudController
                 "edit",
                 fn(Visitor $visitor) => (string) $visitor
             );
-        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -81,6 +79,4 @@ class VisitorCrudController extends AbstractCrudController
             ->add('birthday')            
             ->add('zipcode');
     }
-    
-
 }

@@ -4,10 +4,12 @@ namespace App\Controller\Admin;
 
 
 use App\Entity\Branch;
-use App\Controller\Admin\BranchCrudController;
 use App\Entity\Visitor;
+use App\Entity\PlayDate;
+use App\Controller\Admin\BranchCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\Admin\PlayDateCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
@@ -21,7 +23,7 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         $routeBuilder = $this->get(AdminUrlGenerator::class);
-        return $this->redirect($routeBuilder->setController(BranchCrudController::class)->generateUrl());
+        return $this->redirect($routeBuilder->setController(PlayDateCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard
@@ -33,6 +35,7 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {            
         yield MenuItem::linkToCrud('Visitantes', 'fas fa-child', Visitor::class);
+        yield MenuItem::linkToCrud('Citas de juego', 'fas fa-dice', PlayDate::class);
         yield MenuItem::linkToCrud('Sucursales', 'fas fa-warehouse', Branch::class)->setPermission('ROLE_ADMIN');
 
         yield MenuItem::section('');

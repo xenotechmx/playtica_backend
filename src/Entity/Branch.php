@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BranchRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class Branch
      * @ORM\Column(type="integer")
      */
     private $maxVisitors;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PlayDate::class, mappedBy="branch")
+     */
+    private $playDates;
+
+    public function __construct()
+    {
+        $this->playDates = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -94,5 +106,35 @@ class Branch
     {
         return $this->name;
     }
+
+    /**
+     * @return Collection<int, PlayDate>
+     */
+    public function getPlayDates(): Collection
+    {
+        return $this->playDates;
+    }
+
+    public function addPlayDate(PlayDate $playDate): self
+    {
+        if (!$this->playDates->contains($playDate)) {
+            $this->playDates[] = $playDate;
+            $playDate->setBranch($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayDate(PlayDate $playDate): self
+    {
+        if ($this->playDates->removeElement($playDate)) {
+            // set the owning side to null (unless already changed)
+            if ($playDate->getBranch() === $this) {
+                $playDate->setBranch(null);
+            }
+        }
+
+        return $this;
+    }    
 
 }

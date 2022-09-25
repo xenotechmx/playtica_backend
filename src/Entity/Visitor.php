@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VisitorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,6 +60,16 @@ class Visitor
      * @ORM\Column(type="integer", options={"default" : 0})
      */
     private $gender;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PlayDateVisitor::class, mappedBy="visitor", orphanRemoval=true)
+     */
+    private $playDateVisitors;
+
+    public function __construct()
+    {
+        $this->playDateVisitors = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,8 +149,39 @@ class Visitor
     }
 
     public function __toString()
+    {        
+        $types = ['',self::INFANT, self::ADULT];
+        return $this->firstName.' '.$this->lastName.' - '.$types[$this->type].' ('.date_format($this->birthday,'d/m/Y').')';
+    }
+
+    /**
+     * @return Collection<int, PlayDateVisitor>
+     */
+    public function getPlayDateVisitors(): Collection
     {
-        return $this->firstName.' '.$this->lastName;
+        return $this->playDateVisitors;
+    }
+
+    public function addPlayDateVisitor(PlayDateVisitor $playDateVisitor): self
+    {
+        if (!$this->playDateVisitors->contains($playDateVisitor)) {
+            $this->playDateVisitors[] = $playDateVisitor;
+            $playDateVisitor->setVisitor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayDateVisitor(PlayDateVisitor $playDateVisitor): self
+    {
+        if ($this->playDateVisitors->removeElement($playDateVisitor)) {
+            // set the owning side to null (unless already changed)
+            if ($playDateVisitor->getVisitor() === $this) {
+                $playDateVisitor->setVisitor(null);
+            }
+        }
+
+        return $this;
     }
 
 }
