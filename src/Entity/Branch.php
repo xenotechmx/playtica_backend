@@ -40,7 +40,7 @@ class Branch
     private $maxVisitors;
 
     /**
-     * @ORM\OneToMany(targetEntity=PlayDate::class, mappedBy="branch")
+     * @ORM\OneToMany(targetEntity=PlayDate::class, mappedBy="branch", cascade={"persist"})
      */
     private $playDates;
 

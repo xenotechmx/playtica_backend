@@ -24,6 +24,7 @@ class BranchCrudController extends AbstractCrudController
     {
         return $actions
             ->add(Crud::PAGE_NEW, Action::INDEX)
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->disable(Action::DELETE)
         ;
     }

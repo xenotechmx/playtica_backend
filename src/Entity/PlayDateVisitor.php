@@ -23,13 +23,13 @@ class PlayDateVisitor
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity=PlayDate::class, inversedBy="playDateVisitors")
+     * @ORM\ManyToOne(targetEntity=PlayDate::class, inversedBy="playDateVisitors", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $playDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Visitor::class, inversedBy="playDateVisitors")
+     * @ORM\ManyToOne(targetEntity=Visitor::class, inversedBy="playDateVisitors", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $visitor;
@@ -74,4 +74,10 @@ class PlayDateVisitor
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getVisitor()->getFirstName().' '.$this->getVisitor()->getLastName();
+    }
+
 }

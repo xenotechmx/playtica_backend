@@ -12,6 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PlayDate
 {
+
+    public const PAYMENT_STATUSES = [
+        'Falta de pago' => 0,
+        'Pago en efectivo' => 1,
+        'Pago con tarjeta en sucursal' => 2,
+        'Pago con tarjeta en línea' => 3
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -30,15 +38,20 @@ class PlayDate
     private $endAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Branch::class, inversedBy="playDates")
+     * @ORM\ManyToOne(targetEntity=Branch::class, inversedBy="playDates", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $branch;
 
     /**
-     * @ORM\OneToMany(targetEntity=PlayDateVisitor::class, mappedBy="playDate", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=PlayDateVisitor::class, mappedBy="playDate", orphanRemoval=true, cascade={"persist"})
      */
     private $playDateVisitors;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $paymentStatus;
 
     public function __construct()
     {
@@ -118,6 +131,18 @@ class PlayDate
 
     public function __toString()
     {
-        return 'PLAYDATE';
+        return 'Folio: '.$this->getId();
+    }
+
+    public function getPaymentStatus(): ?int
+    {
+        return $this->paymentStatus;
+    }
+
+    public function setPaymentStatus(int $paymentStatus): self
+    {
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
     }
 }
