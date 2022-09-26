@@ -43,6 +43,7 @@ class VisitorCrudController extends AbstractCrudController
             ->setEntityLabelInPlural("Visitantes")
             ->setEntityLabelInSingular("Visitante")
             ->setSearchFields(['firstName', 'lastName', 'birthday'])
+            ->setPaginatorPageSize(30)
             ->setPageTitle(
                 "detail",
                 fn(Visitor $visitor) => (string) $visitor

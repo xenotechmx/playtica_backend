@@ -44,9 +44,15 @@ class Branch
      */
     private $playDates;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Schedule::class, mappedBy="branch", orphanRemoval=true)
+     */
+    private $schedules;
+
     public function __construct()
     {
         $this->playDates = new ArrayCollection();
+        $this->schedules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,6 +137,36 @@ class Branch
             // set the owning side to null (unless already changed)
             if ($playDate->getBranch() === $this) {
                 $playDate->setBranch(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Schedule>
+     */
+    public function getSchedules(): Collection
+    {
+        return $this->schedules;
+    }
+
+    public function addSchedule(Schedule $schedule): self
+    {
+        if (!$this->schedules->contains($schedule)) {
+            $this->schedules[] = $schedule;
+            $schedule->setBranch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedule(Schedule $schedule): self
+    {
+        if ($this->schedules->removeElement($schedule)) {
+            // set the owning side to null (unless already changed)
+            if ($schedule->getBranch() === $this) {
+                $schedule->setBranch(null);
             }
         }
 
