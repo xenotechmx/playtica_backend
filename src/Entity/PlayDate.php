@@ -28,14 +28,14 @@ class PlayDate
     private $id;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="time")
      */
-    private $startAt;
+    private $startsAt;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="time")
      */
-    private $endAt;
+    private $endsAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Branch::class, inversedBy="playDates", cascade={"persist"})
@@ -53,6 +53,11 @@ class PlayDate
      */
     private $paymentStatus;
 
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $date;
+
     public function __construct()
     {
         $this->playDateVisitors = new ArrayCollection();
@@ -63,26 +68,26 @@ class PlayDate
         return $this->id;
     }
 
-    public function getStartAt(): ?\DateTimeImmutable
+    public function getStartsAt(): ?\DateTimeImmutable
     {
-        return $this->startAt;
+        return $this->startsAt;
     }
 
-    public function setStartAt(\DateTimeImmutable $startAt): self
+    public function setStartsAt(\DateTimeImmutable $startsAt): self
     {
-        $this->startAt = $startAt;
+        $this->startsAt = $startsAt;
 
         return $this;
     }
 
-    public function getEndAt(): ?\DateTimeImmutable
+    public function getEndsAt(): ?\DateTimeImmutable
     {
-        return $this->endAt;
+        return $this->endsAt;
     }
 
-    public function setEndAt(\DateTimeImmutable $endAt): self
+    public function setEndsAt(\DateTimeImmutable $endsAt): self
     {
-        $this->endAt = $endAt;
+        $this->endsAt = $endsAt;
 
         return $this;
     }
@@ -142,6 +147,18 @@ class PlayDate
     public function setPaymentStatus(int $paymentStatus): self
     {
         $this->paymentStatus = $paymentStatus;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }
