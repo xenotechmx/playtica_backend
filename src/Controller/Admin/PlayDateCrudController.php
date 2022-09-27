@@ -84,13 +84,10 @@ class PlayDateCrudController extends AbstractCrudController
             //                 ->autocomplete(),
             
             FormField::addRow(),
-            CollectionField::new(
-				"playDateVisitors",
-				"Visitantes"
-			)
+            CollectionField::new("playDateVisitors", "Visitantes" )
 				->setEntryType(\App\Form\PlayDateVisitorType::class)
 				->renderExpanded()
-				->setColumns(6)
+				->setColumns(12)
 				->renderExpanded(),
             
         ];

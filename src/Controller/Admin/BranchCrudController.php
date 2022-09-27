@@ -3,14 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Branch;
+use App\Form\PlayDateVisitorType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class BranchCrudController extends AbstractCrudController
@@ -52,7 +55,14 @@ class BranchCrudController extends AbstractCrudController
             TextField::new("name", "Nombre de la sucursal")->setSortable(true)->setColumns(4),
             TelephoneField::new("phone", "Teléfono")->setSortable(true)->setColumns(4),
             IntegerField::new("maxVisitors", "Número máximo de visitantes")->setSortable(true)->setColumns(4),
-            TextareaField::new("address", "Dirección")->setColumns(6)->hideOnIndex()
+            TextareaField::new("address", "Dirección")->setColumns(6)->hideOnIndex(),
+            FormField::addRow(),
+            CollectionField::new("fares", "Tarifas" )
+                ->setEntryType(\App\Form\FareType::class)
+                ->setEntryIsComplex(true)
+				->setColumns(12)
+				->renderExpanded()
+                ->hideOnIndex(),
         ];
     }
 

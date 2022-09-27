@@ -49,10 +49,16 @@ class Branch
      */
     private $schedules;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Fare::class, mappedBy="branch", orphanRemoval=true, cascade={"persist"})
+     */
+    private $fares;
+
     public function __construct()
     {
         $this->playDates = new ArrayCollection();
         $this->schedules = new ArrayCollection();
+        $this->fares = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,6 +173,36 @@ class Branch
             // set the owning side to null (unless already changed)
             if ($schedule->getBranch() === $this) {
                 $schedule->setBranch(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fare>
+     */
+    public function getFares(): Collection
+    {
+        return $this->fares;
+    }
+
+    public function addFare(Fare $fare): self
+    {
+        if (!$this->fares->contains($fare)) {
+            $this->fares[] = $fare;
+            $fare->setBranch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFare(Fare $fare): self
+    {
+        if ($this->fares->removeElement($fare)) {
+            // set the owning side to null (unless already changed)
+            if ($fare->getBranch() === $this) {
+                $fare->setBranch(null);
             }
         }
 

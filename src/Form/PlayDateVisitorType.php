@@ -30,10 +30,16 @@ class PlayDateVisitorType extends AbstractType
                 'label' => 'Visitante',
                 'class' => Visitor::class,
                 'choices' => $this->visitorRespository->findAll(),
+                'row_attr' => [
+					'class' => 'col-md-6'
+				]
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Cobro',
-                'currency' => 'MXN'
+                'currency' => 'MXN',
+                'row_attr' => [
+					'class' => 'col-md-6'
+				]
             ]);
     }
 
