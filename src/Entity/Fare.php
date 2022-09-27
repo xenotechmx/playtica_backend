@@ -14,10 +14,9 @@ class Fare
     public const TIMES = [
         '1 Hora' => 1,
         '2 Horas' => 2,
-        '3 Horas' => 3,
-        'Todo el día' => 4,
-        '10 min. extra' => 5,
-        'Adulto' => 6,
+        'Todo el día' => 3,
+        '10 min. extra' => 4,
+        'Adulto' => 5,
     ];
 
     public const DAYS = [
