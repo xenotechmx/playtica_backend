@@ -1,0 +1,13 @@
+div:has(>.row-fare .form-control-label):has(.form-control-label){
+    width: 33%;
+    float: left;
+}
+
+.accordion-item:last-of-type .accordion-collapse {
+    height: 90px;
+}
+
+.row-fare {
+    text-align: center;
+    flex-direction: column;
+}

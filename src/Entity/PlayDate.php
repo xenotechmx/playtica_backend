@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\PlayDateRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
+use App\Entity\Branch;
+use App\Entity\PlayDateVisitor;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlayDateRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=PlayDateRepository::class)
@@ -68,24 +71,24 @@ class PlayDate
         return $this->id;
     }
 
-    public function getStartsAt(): ?\DateTimeImmutable
+    public function getStartsAt(): ?DateTime
     {
         return $this->startsAt;
     }
 
-    public function setStartsAt(\DateTimeImmutable $startsAt): self
+    public function setStartsAt(\DateTime $startsAt): self
     {
         $this->startsAt = $startsAt;
 
         return $this;
     }
 
-    public function getEndsAt(): ?\DateTimeImmutable
+    public function getEndsAt(): ?\DateTime
     {
         return $this->endsAt;
     }
 
-    public function setEndsAt(\DateTimeImmutable $endsAt): self
+    public function setEndsAt(\DateTime $endsAt): self
     {
         $this->endsAt = $endsAt;
 

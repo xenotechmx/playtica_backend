@@ -25,7 +25,7 @@ class UserFixtures extends Fixture
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('chanjoohwang');
+        $user->setUsername('j.hwang');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
         $user->setRoles(['ROLE_ADMIN']);        
@@ -33,7 +33,7 @@ class UserFixtures extends Fixture
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('hyosunlee');
+        $user->setUsername('lluevia.lee');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
         $user->setRoles(['ROLE_ADMIN']);        
@@ -41,7 +41,7 @@ class UserFixtures extends Fixture
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('kwangsikhwang');
+        $user->setUsername('hks');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
         $user->setRoles(['ROLE_ADMIN']);        
@@ -49,7 +49,7 @@ class UserFixtures extends Fixture
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('hyunsuson');
+        $user->setUsername('pablo.son');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
         $user->setRoles(['ROLE_ADMIN']);        
@@ -57,7 +57,7 @@ class UserFixtures extends Fixture
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('sukwoolee');
+        $user->setUsername('davidlee');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
         $user->setRoles(['ROLE_ADMIN']);        
@@ -65,7 +65,7 @@ class UserFixtures extends Fixture
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('soohyunghwang');
+        $user->setUsername('destiny.hwang');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
         $user->setRoles(['ROLE_ADMIN']);        
@@ -73,7 +73,7 @@ class UserFixtures extends Fixture
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('junhyungpark');
+        $user->setUsername('jhpark');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
         $user->setRoles(['ROLE_ADMIN']);        

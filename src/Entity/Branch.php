@@ -54,11 +54,17 @@ class Branch
      */
     private $fares;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AdultFare::class, mappedBy="branch", orphanRemoval=true, cascade={"persist"})
+     */
+    private $adultFares;
+
     public function __construct()
     {
         $this->playDates = new ArrayCollection();
         $this->schedules = new ArrayCollection();
         $this->fares = new ArrayCollection();
+        $this->adultFares = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,11 +118,6 @@ class Branch
         $this->maxVisitors = $maxVisitors;
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->name;
     }
 
     /**
@@ -207,6 +208,41 @@ class Branch
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, AdultFare>
+     */
+    public function getAdultFares(): Collection
+    {
+        return $this->adultFares;
+    }
+
+    public function addAdultFare(AdultFare $adultFare): self
+    {
+        if (!$this->adultFares->contains($adultFare)) {
+            $this->adultFares[] = $adultFare;
+            $adultFare->setBranch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdultFare(AdultFare $adultFare): self
+    {
+        if ($this->adultFares->removeElement($adultFare)) {
+            // set the owning side to null (unless already changed)
+            if ($adultFare->getBranch() === $this) {
+                $adultFare->setBranch(null);
+            }
+        }
+
+        return $this;
     }    
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 
 }

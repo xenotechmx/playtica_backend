@@ -2,20 +2,20 @@
 
 namespace App\Entity;
 
-use App\Repository\FareRepository;
+use App\Repository\AdultFareRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=FareRepository::class)
+ * @ORM\Entity(repositoryClass=AdultFareRepository::class)
  */
-class Fare
+class AdultFare
 {
-
-    public const TIMES = [
-        '1 Hora' => 1,
-        '2 Horas' => 2,
-        'Todo el día' => 3,
-        '10 min. extra' => 4,
+    public const ADULTS_TYPE = [
+        'Adultos (1 y 2)' => 1,
+        'Adultos (3 y 4)' => 2,
+        'Adultos (5 y 6)' => 3,
+        'Adultos (7 y 8)' => 4,
+        'Adultos (9 y 10)' => 5
     ];
 
     public const DAYS = [
@@ -35,22 +35,21 @@ class Fare
      */
     private $price;
 
-
     /**
      * @ORM\Column(type="integer")
      */
     private $days;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $time;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Branch::class, inversedBy="fares", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Branch::class, inversedBy="adultFares", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $branch;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $adults;
 
     public function getId(): ?int
     {
@@ -81,18 +80,6 @@ class Fare
         return $this;
     }
 
-    public function getTime(): ?int
-    {
-        return $this->time;
-    }
-
-    public function setTime(int $time): self
-    {
-        $this->time = $time;
-
-        return $this;
-    }
-
     public function getBranch(): ?Branch
     {
         return $this->branch;
@@ -105,12 +92,24 @@ class Fare
         return $this;
     }
 
+    public function getAdults(): ?int
+    {
+        return $this->adults;
+    }
+
+    public function setAdults(int $adults): self
+    {
+        $this->adults = $adults;
+
+        return $this;
+    }
+
     public function __toString()
     {
-        $times = array_flip(self::TIMES);
         $days = array_flip(self::DAYS);
+        $adultsType = array_flip(self::ADULTS_TYPE);
 
-        return  '$'.number_format($this->getPrice(),2).' ('.$times[$this->getTime()].' - '.$days[$this->getDays()].')';
+        return  '$'.number_format($this->getPrice(),2).' ( '.$adultsType[$this->getAdults()].' - '.$days[$this->getDays()].')';
     }
 
 }
