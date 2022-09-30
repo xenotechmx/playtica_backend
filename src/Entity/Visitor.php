@@ -52,11 +52,6 @@ class Visitor
     private $birthday;
 
     /**
-     * @ORM\Column(type="string", length=6, nullable=true)
-     */
-    private $zipcode;
-
-    /**
      * @ORM\Column(type="integer", options={"default" : 0})
      */
     private $gender;
@@ -120,18 +115,6 @@ class Visitor
     public function setBirthday(\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
-
-        return $this;
-    }
-
-    public function getZipcode(): ?string
-    {
-        return $this->zipcode;
-    }
-
-    public function setZipcode(?string $zipcode): self
-    {
-        $this->zipcode = $zipcode;
 
         return $this;
     }

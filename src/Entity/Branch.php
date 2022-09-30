@@ -59,12 +59,18 @@ class Branch
      */
     private $adultFares;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="branch", orphanRemoval=true)
+     */
+    private $products;
+
     public function __construct()
     {
         $this->playDates = new ArrayCollection();
         $this->schedules = new ArrayCollection();
         $this->fares = new ArrayCollection();
         $this->adultFares = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -243,6 +249,36 @@ class Branch
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setBranch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getBranch() === $this) {
+                $product->setBranch(null);
+            }
+        }
+
+        return $this;
     }
 
 }

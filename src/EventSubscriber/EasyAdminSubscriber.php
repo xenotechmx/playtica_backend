@@ -2,9 +2,10 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\PlayDate;
 use App\Entity\Schedule;
-use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
@@ -28,6 +29,12 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             if($entity->getType() == 9){ //closed
                 $entity->setOpenTime(null);
                 $entity->setCloseTime(null);
+            }
+        }
+
+        if ($entity instanceof PlayDate){
+            foreach ($entity->getPlayDateProducts() as $playDateProduct){
+                $playDateProduct->setPrice( $playDateProduct->getProduct()->getPrice() );
             }
         }
     }

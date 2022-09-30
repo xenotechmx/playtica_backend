@@ -61,9 +61,15 @@ class PlayDate
      */
     private $date;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PlayDateProduct::class, mappedBy="playDate", orphanRemoval=true, cascade={"persist"})
+     */
+    private $playDateProducts;
+
     public function __construct()
     {
         $this->playDateVisitors = new ArrayCollection();
+        $this->playDateProducts = new ArrayCollection();
     }
    
     public function getId(): ?int
@@ -162,6 +168,36 @@ class PlayDate
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlayDateProduct>
+     */
+    public function getPlayDateProducts(): Collection
+    {
+        return $this->playDateProducts;
+    }
+
+    public function addPlayDateProduct(PlayDateProduct $playDateProduct): self
+    {
+        if (!$this->playDateProducts->contains($playDateProduct)) {
+            $this->playDateProducts[] = $playDateProduct;
+            $playDateProduct->setPlayDate($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayDateProduct(PlayDateProduct $playDateProduct): self
+    {
+        if ($this->playDateProducts->removeElement($playDateProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($playDateProduct->getPlayDate() === $this) {
+                $playDateProduct->setPlayDate(null);
+            }
+        }
 
         return $this;
     }
