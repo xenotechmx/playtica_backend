@@ -83,6 +83,31 @@ class VisitorController extends AbstractController
     }
 
     /**
+     * @Route("/api/find_visitor", name="api_find_visitor", methods={"POST"})
+     */
+    public function findVisitor(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $visitors = $this->visitorRepository->findFromReservationModule($data);
+        $data = [];
+
+        foreach ($visitors as $visitor) {
+            $data[] = [
+                'firstName' => $visitor->getFirstName(),
+                'lastName' => $visitor->getLastName(),
+                'birthday' => $visitor->getBirthday(),
+                'type' => $visitor->getType(),
+                'gender' => $visitor->getGender(),
+            ];
+        }
+
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    
+    
+    
+    /**
      * @Route("visitor/{id}", name="update_visitor", methods={"PUT"})
      */
     public function update($id, Request $request): JsonResponse
