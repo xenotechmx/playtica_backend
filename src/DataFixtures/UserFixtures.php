@@ -20,6 +20,7 @@ class UserFixtures extends Fixture
         $user->setUsername('zahitrios');
         $password = $this->hasher->hashPassword($user, 'tyVe7i%3O791');
         $user->setPassword($password);
+        $user->setApiToken('e193b906-720e-415d-9027-06113735f4f7');
         $user->setRoles(['ROLE_ADMIN']);        
         $user->setActive(true);
         $manager->persist($user);
@@ -28,6 +29,7 @@ class UserFixtures extends Fixture
         $user->setUsername('j.hwang');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
+        $user->setApiToken(sha1(mt_rand(1, 90000) . 'SALT'));
         $user->setRoles(['ROLE_ADMIN']);        
         $user->setActive(true);
         $manager->persist($user);
@@ -36,6 +38,7 @@ class UserFixtures extends Fixture
         $user->setUsername('lluevia.lee');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
+        $user->setApiToken(sha1(mt_rand(1, 90000) . 'SALT'));
         $user->setRoles(['ROLE_ADMIN']);        
         $user->setActive(true);
         $manager->persist($user);
@@ -44,6 +47,7 @@ class UserFixtures extends Fixture
         $user->setUsername('hks');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
+        $user->setApiToken(sha1(mt_rand(1, 90000) . 'SALT'));
         $user->setRoles(['ROLE_ADMIN']);        
         $user->setActive(true);
         $manager->persist($user);
@@ -52,6 +56,7 @@ class UserFixtures extends Fixture
         $user->setUsername('pablo.son');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
+        $user->setApiToken(sha1(mt_rand(1, 90000) . 'SALT'));
         $user->setRoles(['ROLE_ADMIN']);        
         $user->setActive(true);
         $manager->persist($user);
@@ -60,6 +65,7 @@ class UserFixtures extends Fixture
         $user->setUsername('davidlee');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
+        $user->setApiToken(sha1(mt_rand(1, 90000) . 'SALT'));
         $user->setRoles(['ROLE_ADMIN']);        
         $user->setActive(true);
         $manager->persist($user);
@@ -68,6 +74,7 @@ class UserFixtures extends Fixture
         $user->setUsername('destiny.hwang');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
+        $user->setApiToken(sha1(mt_rand(1, 90000) . 'SALT'));
         $user->setRoles(['ROLE_ADMIN']);        
         $user->setActive(true);
         $manager->persist($user);
@@ -76,6 +83,7 @@ class UserFixtures extends Fixture
         $user->setUsername('jhpark');
         $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
         $user->setPassword($password);
+        $user->setApiToken(sha1(mt_rand(1, 90000) . 'SALT'));
         $user->setRoles(['ROLE_ADMIN']);        
         $user->setActive(true);
         $manager->persist($user);

@@ -41,6 +41,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $active;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     */
+    private $apiToken;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -133,6 +138,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(string $apiToken): self
+    {
+        $this->apiToken = $apiToken;
 
         return $this;
     }
