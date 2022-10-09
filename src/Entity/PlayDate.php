@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class PlayDate
 {
 
+    public const INITIAL_STATUS = 0;
     public const PAYMENT_STATUSES = [
         'Falta de pago' => 0,
         'Pago en efectivo' => 1,

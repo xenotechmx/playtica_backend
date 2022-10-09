@@ -39,18 +39,6 @@ class VisitorRepository extends ServiceEntityRepository
         }
     }
 
-    public function findFromReservationModule($request){
-        return $this->createQueryBuilder('v')
-           ->andWhere('v.birthday = :dob')
-           ->andWhere('v.firstName LIKE :firstName')
-           ->andWhere('v.lastName LIKE :lastName')
-           ->setParameter('dob', $request['birthday'])
-           ->setParameter('firstName', '%'.$request['firstName'].'%')
-           ->setParameter('lastName', '%'.$request['lastName'].'%')
-           ->getQuery()
-           ->getResult();
-    }
-
 //    /**
 //     * @return Visitor[] Returns an array of Visitor objects
 //     */

@@ -71,6 +71,7 @@
         }
     },
     "require-dev": {
+        "fzaninotto/faker": "^1.9",
         "symfony/stopwatch": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*"
     }
