@@ -65,7 +65,7 @@ class VisitorCrudController extends AbstractCrudController
                 Visitor::INFANT => Visitor::TYPE_INFANT,
                 Visitor::ADULT => Visitor::TYPE_ADULT
             ])->renderAsNativeWidget(),
-            AssociationField::new("city", "Ciudad")->setSortable(true)->setColumns(4),
+            AssociationField::new("city", "Municipio")->setSortable(true)->setColumns(4),
             FormField::addRow(),
             TextField::new("firstName", "Nombre(s)")->setSortable(true)->setColumns(4),
             TextField::new("lastName", "Apellido(s)")->setSortable(true)->setColumns(4),            
