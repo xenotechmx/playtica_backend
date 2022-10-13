@@ -12,7 +12,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class VisitorCrudController extends AbstractCrudController
 {
@@ -43,7 +45,7 @@ class VisitorCrudController extends AbstractCrudController
             ->showEntityActionsInlined()
             ->setEntityLabelInPlural("Visitantes")
             ->setEntityLabelInSingular("Visitante")
-            ->setSearchFields(['firstName', 'lastName', 'birthday'])
+            ->setSearchFields(['firstName', 'lastName', 'birthday','email'])
             ->setPaginatorPageSize(30)
             ->setPageTitle(
                 "detail",
@@ -58,18 +60,27 @@ class VisitorCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            DateField::new("birthday", "Fecha de nacimiento")->setSortable(true)->setColumns(3)->renderAsChoice()->setFormTypeOptions(['years'=>range((int) date('Y') - 70, (int) date('Y'))]),
+            DateField::new("birthday", "Fecha de nacimiento")->setSortable(true)->setColumns(4)->renderAsChoice()->setFormTypeOptions(['years'=>range((int) date('Y') - 70, (int) date('Y'))]),
+            ChoiceField::new("type", "Tipo de visitante")->setSortable(true)->setColumns(4)->setChoices([
+                Visitor::INFANT => Visitor::TYPE_INFANT,
+                Visitor::ADULT => Visitor::TYPE_ADULT
+            ])->renderAsNativeWidget(),
+            AssociationField::new("city", "Ciudad")->setSortable(true)->setColumns(4),
             FormField::addRow(),
-            TextField::new("firstName", "Nombre(s)")->setSortable(true)->setColumns(3),
-            TextField::new("lastName", "Apellido(s)")->setSortable(true)->setColumns(3),            
-            ChoiceField::new("gender", "Género")->setSortable(true)->setColumns(3)->autocomplete()->setChoices([
+            TextField::new("firstName", "Nombre(s)")->setSortable(true)->setColumns(4),
+            TextField::new("lastName", "Apellido(s)")->setSortable(true)->setColumns(4),            
+            ChoiceField::new("gender", "Género")->setSortable(true)->setColumns(4)->autocomplete()->setChoices([
                 Visitor::UNDEFINED => Visitor::GENDER_UNDEFINED,
                 Visitor::FEMALE => Visitor::GENDER_FEMALE,
                 Visitor::MALE => Visitor::GENDER_MALE
             ]),            
-            ChoiceField::new("type", "Tipo de visitante")->setSortable(true)->setColumns(3)->setChoices([
-                Visitor::INFANT => Visitor::TYPE_INFANT,
-                Visitor::ADULT => Visitor::TYPE_ADULT
+            
+            TextField::new("email", "Correo electrónico")->setSortable(true)->setColumns(4),             
+            TelephoneField::new("mobilePhone", "Teléfono celular")->setSortable(true)->setColumns(4),             
+            ChoiceField::new("maritalStatus", "Estado civil")->setSortable(true)->setColumns(4)->autocomplete()->setChoices([
+                Visitor::OTHER => Visitor::TYPE_MARITAL_STATUS_OTHER,
+                Visitor::MARRIED => Visitor::TYPE_MARITAL_STATUS_MARRIED,
+                Visitor::SINGLE => Visitor::TYPE_MARITAL_STATUS_SINGLE
             ])->renderAsNativeWidget(),
         ];
     }
@@ -78,6 +89,8 @@ class VisitorCrudController extends AbstractCrudController
         return $filters
             ->add('firstName')
             ->add('lastName')
-            ->add('birthday');
+            ->add('birthday')
+            ->add('maritalStatus')
+            ->add('email');
     }
 }

@@ -17,6 +17,13 @@ class Visitor
     public const INFANT = "Menor";
     public const ADULT = "Adulto";
 
+    public const TYPE_MARITAL_STATUS_MARRIED = 1;
+    public const TYPE_MARITAL_STATUS_SINGLE = 2;
+    public const TYPE_MARITAL_STATUS_OTHER = 3;
+    public const OTHER = "Otro";
+    public const MARRIED = "Casado";
+    public const SINGLE = "Soltero";
+
     public const GENDER_UNDEFINED = 0;
     public const GENDER_FEMALE = 1;
     public const GENDER_MALE = 2;    
@@ -60,6 +67,26 @@ class Visitor
      * @ORM\OneToMany(targetEntity=PlayDateVisitor::class, mappedBy="visitor", orphanRemoval=true)
      */
     private $playDateVisitors;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $maritalStatus;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $mobilePhone;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="visitors")
+     */
+    private $city;
 
     public function __construct()
     {
@@ -163,6 +190,54 @@ class Visitor
                 $playDateVisitor->setVisitor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getMaritalStatus(): ?int
+    {
+        return $this->maritalStatus;
+    }
+
+    public function setMaritalStatus(?int $maritalStatus): self
+    {
+        $this->maritalStatus = $maritalStatus;
+
+        return $this;
+    }
+
+    public function getMobilePhone(): ?string
+    {
+        return $this->mobilePhone;
+    }
+
+    public function setMobilePhone(?string $mobilePhone): self
+    {
+        $this->mobilePhone = $mobilePhone;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }
