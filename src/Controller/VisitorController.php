@@ -27,26 +27,29 @@ class VisitorController extends AbstractController
      * @Route("/api/visitors/{id}", name="api_get_visitor", methods={"GET"})
      */
     public function get($id): JsonResponse
-    {
-        $visitor = $this->visitorRepository->findOneBy(['id' => $id]);
+    {        
+        $query = $this->visitorRepository->createQueryBuilder('v')
+                ->select('v','c')
+                ->where('v.id = :id')
+                ->andWhere('v.firstName LIKE :firstName')
+                ->andWhere('v.lastName LIKE :lastName')
+                ->leftJoin('v.city','c')
+                ->setParameter('id', $id)
+                ->getQuery();
+        $visitors = $query->getResult(Query::HYDRATE_ARRAY);
 
-        $data = [
-            'firstName' => $visitor->getFirstName(),
-            'lastName' => $visitor->getLastName(),
-            'birthday' => $visitor->getBirthday(),
-            'type' => $visitor->getType(),
-            'gender' => $visitor->getGender(),
-        ];
-
-        return new JsonResponse($data, Response::HTTP_OK);
+        return new JsonResponse($visitors, Response::HTTP_OK);
     }
 
     /**
      * @Route("/api/visitors", name="api_get_all_visitors", methods={"GET"})
      */
     public function getAll(): JsonResponse
-    {    
-        $query = $this->visitorRepository->createQueryBuilder('v')->getQuery();
+    {
+        $query = $this->visitorRepository->createQueryBuilder('v')
+                ->select('v','c')                
+                ->leftJoin('v.city','c')                
+                ->getQuery();
         $visitors = $query->getResult(Query::HYDRATE_ARRAY);
 
         return new JsonResponse($visitors, Response::HTTP_OK);
@@ -60,9 +63,11 @@ class VisitorController extends AbstractController
         $data = json_decode($request->getContent(), true);
        
         $query = $this->visitorRepository->createQueryBuilder('v')
+                ->select('v','c')
                 ->where('v.birthday = :dob')
                 ->andWhere('v.firstName LIKE :firstName')
                 ->andWhere('v.lastName LIKE :lastName')
+                ->leftJoin('v.city','c')
                 ->setParameter('dob', $data['birthday'])
                 ->setParameter('firstName', '%'.$data['firstName'].'%')
                 ->setParameter('lastName', '%'.$data['lastName'].'%')

@@ -65,7 +65,7 @@ class PlayDateCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IntegerField::new('id', 'Folio')->setSortable(true)->hideOnForm(),
+            IntegerField::new('id', 'Id')->setSortable(true)->hideOnForm(),
             DateField::new('date', 'Fecha')->setSortable(true)->setColumns(3)->setFormat('dd MMM yyyy')->setFormTypeOptions(['years'=>range((int) date('Y') +1 , (int) date('Y'))]),
 
             FormField::addRow(),

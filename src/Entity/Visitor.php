@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Visitor
 {
+    public const AGE_LIMIT = 13;
+
     public const TYPE_INFANT = 1;
     public const TYPE_ADULT = 2;
     public const INFANT = "Menor";
