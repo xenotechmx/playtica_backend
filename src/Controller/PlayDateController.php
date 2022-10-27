@@ -77,13 +77,15 @@ class PlayDateController extends AbstractController
         //TODO validate if number of adults is allowd according to enfants number
         //TODO validate if at least exist one responsable and is adult
         
-        foreach($data['products'] as $productJson){
-            $product =  $this->productRepository->find($productJson['productId']);
-            $newPlayDateProduct = new PlayDateProduct;
-            $newPlayDateProduct->setPlayDate($newPlayDate);
-            $newPlayDateProduct->setProduct($product);
-            $newPlayDateProduct->setPrice($product->getPrice());
-            $newPlayDateProduct->setQuantity($productJson['quantity']);
+        if(!empty($data['products'])){
+            foreach($data['products'] as $productJson){
+                $product =  $this->productRepository->find($productJson['productId']);
+                $newPlayDateProduct = new PlayDateProduct;
+                $newPlayDateProduct->setPlayDate($newPlayDate);
+                $newPlayDateProduct->setProduct($product);
+                $newPlayDateProduct->setPrice($product->getPrice());
+                $newPlayDateProduct->setQuantity($productJson['quantity']);
+            }
         }
 
         foreach($data['visitors'] as $visitorJson){
