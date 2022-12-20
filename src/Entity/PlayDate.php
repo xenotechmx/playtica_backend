@@ -22,7 +22,7 @@ class PlayDate
 {    
     public const INITIAL_STATUS = 0;
     public const PAYMENT_STATUSES = [
-        'Falta de pago' => 0,
+        'Pendiente de pago' => 0,
         'Pago en efectivo' => 1,
         'Pago con tarjeta en sucursal' => 2,
         'Pago con tarjeta en línea' => 3
@@ -263,6 +263,16 @@ class PlayDate
             }
         }        
         $this->setPrice($totalPrice);
+    }
+
+    public function getHoursToPlayDate()
+    {
+        $hours = 1;
+        if(!empty($this->endsAt)){
+            $timeDiff = date_diff($this->endsAt, $this->startsAt);
+            $hours = ($timeDiff->m > 0) ? 1 + $timeDiff->h : $timeDiff->h ; //rounding to up time            
+        }
+        return $hours;
     }
 
 }

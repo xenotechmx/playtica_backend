@@ -150,7 +150,9 @@ class PlayDateController extends AbstractController
         }
 
         $this->manager->persist($newPlayDate);
-        $this->manager->persist($newPlayDateProduct);
+        if(!empty($newPlayDateProduct)){
+            $this->manager->persist($newPlayDateProduct);
+        }
         
         $newPlayDate->calculatePrice();
         $this->manager->persist($newPlayDate);

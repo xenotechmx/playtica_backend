@@ -34,6 +34,8 @@ class PlayDateCrudController extends AbstractCrudController
     {
         return $assets
                 ->addJsFile('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js')
+                ->addHtmlContentToBody('<script src="/assets/js/moment.js"></script>')
+                ->addHtmlContentToBody('<script src="/assets/js/app.js"></script>')
                 ->addHtmlContentToBody('<script src="/assets/js/playDateCrud.js"></script>');
     }
 
@@ -65,15 +67,17 @@ class PlayDateCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IntegerField::new('id', 'Id')->setSortable(true)->hideOnForm(),
+            IntegerField::new('id', 'Id')->setSortable(true)->hideOnForm(),            
+            AssociationField::new('branch', 'Sucursal')->setColumns(3)->setCrudController(BranchCrudController::class)->setColumns(3),
             DateField::new('date', 'Fecha')->setSortable(true)->setColumns(3)->setFormat('dd MMM yyyy')->setFormTypeOptions(['years'=>range((int) date('Y') +1 , (int) date('Y'))]),
 
             FormField::addRow(),
 
-            TimeField::new('startsAt', 'Inicia')->setSortable(true)->setColumns(3)->renderAsChoice()->setFormat('hh:mm aaa'),
+            ChoiceField::new('hoursToPlayDate', 'Horas')->setColumns(3)->setChoices([1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6, 7=>7, 'Todo el día'=>0])->renderAsNativeWidget()->onlyOnForms(),
+            TimeField::new('startsAt', 'Inicia')->setSortable(true)->setColumns(3)->renderAsChoice()->setFormat('hh:mm aaa'),            
             TimeField::new('endsAt', 'Finaliza')->setSortable(true)->setColumns(3)->renderAsChoice()->setFormat('hh:mm aaa'),
-            AssociationField::new('branch', 'Sucursal')->setColumns(3)->setCrudController(BranchCrudController::class)->setColumns(3),
-            ChoiceField::new('paymentStatus', 'Pago')->setSortable(true)->setColumns(3)->setChoices(PlayDate::PAYMENT_STATUSES)->renderAsNativeWidget(),
+                        
+            ChoiceField::new('paymentStatus', 'Pago')->setSortable(true)->setColumns(2)->setChoices(PlayDate::PAYMENT_STATUSES)->renderAsNativeWidget(),
 
             // AssociationField::new('visitors', 'Visitantes')
             //                 ->setCrudController(VisitorCrudController::class)b
