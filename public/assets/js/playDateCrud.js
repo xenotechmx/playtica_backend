@@ -19,7 +19,7 @@ $(function() {
         $('#PlayDate_paymentStatus').val(1);
 
         //when starts hour, starts minute or hours changed
-        $('#PlayDate_startsAt_hour, #PlayDate_startsAt_minute, #PlayDate_hoursToPlayDate').change(function(){
+        $('#PlayDate_startsAt_hour, #PlayDate_startsAt_minute, #PlayDate_hours').change(function(){
             calculateEndHour()
         });
         
@@ -77,7 +77,7 @@ function clearAvailableHours(){
 }
 
 function calculateEndHour(){
-    let hoursToSum = $('#PlayDate_hoursToPlayDate').val();
+    let hoursToSum = $('#PlayDate_hours').val();
     let start = $('#PlayDate_startsAt_hour').val();
     let end = parseInt(start) + parseInt(hoursToSum);
 

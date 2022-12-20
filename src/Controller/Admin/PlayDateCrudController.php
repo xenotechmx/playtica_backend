@@ -73,7 +73,7 @@ class PlayDateCrudController extends AbstractCrudController
 
             FormField::addRow(),
 
-            ChoiceField::new('hoursToPlayDate', 'Horas')->setColumns(3)->setChoices([1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6, 7=>7, 'Todo el día'=>0])->renderAsNativeWidget()->onlyOnForms(),
+            ChoiceField::new('hours', 'Horas')->setColumns(3)->setChoices([1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6, 7=>7, 'Todo el día'=>0])->renderAsNativeWidget()->onlyOnForms(),
             TimeField::new('startsAt', 'Inicia')->setSortable(true)->setColumns(3)->renderAsChoice()->setFormat('hh:mm aaa'),            
             TimeField::new('endsAt', 'Finaliza')->setSortable(true)->setColumns(3)->renderAsChoice()->setFormat('hh:mm aaa'),
                         

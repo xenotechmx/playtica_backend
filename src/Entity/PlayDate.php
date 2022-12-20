@@ -76,6 +76,7 @@ class PlayDate
      */
     private $price;
 
+
     public function __construct()
     {        
         $this->playDateVisitors = new ArrayCollection();
@@ -265,7 +266,7 @@ class PlayDate
         $this->setPrice($totalPrice);
     }
 
-    public function getHoursToPlayDate()
+    public function getHours()
     {
         $hours = 1;
         if(!empty($this->endsAt)){
@@ -273,6 +274,11 @@ class PlayDate
             $hours = ($timeDiff->m > 0) ? 1 + $timeDiff->h : $timeDiff->h ; //rounding to up time            
         }
         return $hours;
+    }
+
+    public function setHours(?int $hours)
+    {
+        
     }
 
 }
