@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 
@@ -29,18 +30,14 @@ class PlayDateVisitorType extends AbstractType
             ->add('visitor', EntityType::class, [
                 'label' => 'Visitante',
                 'class' => Visitor::class,
-                'choices' => $this->visitorRespository->findAll(),
+                'choices' => [],
+                'required' => true,
                 'row_attr' => [
-					'class' => 'col-md-6'
+					'class' => 'col-md-3'
 				]
-            ])
-            ->add('price', MoneyType::class, [
-                'label' => 'Cobro',
-                'currency' => 'MXN',
-                'row_attr' => [
-					'class' => 'col-md-6'
-				]
-            ]);
+                ])
+                
+                ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
