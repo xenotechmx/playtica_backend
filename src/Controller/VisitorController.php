@@ -76,5 +76,23 @@ class VisitorController extends AbstractController
 
         return new JsonResponse($visitors, Response::HTTP_OK);
     }
+
+    /**
+     * @Route("/api/find_visitor_mobile", name="api_find_visitor_mobile", methods={"POST"})
+     */
+    public function findVisitorMobile(Request $request): JsonResponse
+    {
+        $data = $request->request->all(); //TODO, clear mobilePhone, remove spaces, dashes, etc.
+
+        $query = $this->visitorRepository->createQueryBuilder('v')
+                ->select('v','c')
+                ->where('v.mobilePhone LIKE :mobilePhone')
+                ->leftJoin('v.city','c')
+                ->setParameter('mobilePhone', '%'.$data['mobilePhone'].'%')
+                ->getQuery();
+        $visitors = $query->getResult(Query::HYDRATE_ARRAY);
+
+        return new JsonResponse($visitors, Response::HTTP_OK);
+    }
     
 }

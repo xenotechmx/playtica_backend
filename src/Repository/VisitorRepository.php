@@ -39,6 +39,16 @@ class VisitorRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByMobilePhone($mobilePhone): ?Visitor
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.mobilePhone = :val')
+            ->setParameter('val', $mobilePhone)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return Visitor[] Returns an array of Visitor objects
 //     */

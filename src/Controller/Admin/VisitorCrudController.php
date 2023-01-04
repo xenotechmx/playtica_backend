@@ -12,9 +12,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class VisitorCrudController extends AbstractCrudController
 {
@@ -45,7 +46,7 @@ class VisitorCrudController extends AbstractCrudController
             ->showEntityActionsInlined()
             ->setEntityLabelInPlural("Visitantes")
             ->setEntityLabelInSingular("Visitante")
-            ->setSearchFields(['firstName', 'lastName', 'birthday','email'])
+            ->setSearchFields(['firstName', 'lastName', 'birthday','email', 'mobilePhone'])
             ->setPaginatorPageSize(30)
             ->setPageTitle(
                 "detail",
@@ -60,12 +61,13 @@ class VisitorCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            IntegerField::new('id', 'Folio')->setSortable(true)->hideOnForm(),            
             DateField::new("birthday", "Fecha de nacimiento")->setSortable(true)->setColumns(4)->renderAsChoice()->setFormTypeOptions(['years'=>range((int) date('Y') - 70, (int) date('Y'))]),
             ChoiceField::new("type", "Tipo de visitante")->setSortable(true)->setColumns(4)->setChoices([
                 Visitor::INFANT => Visitor::TYPE_INFANT,
                 Visitor::ADULT => Visitor::TYPE_ADULT
             ])->renderAsNativeWidget(),
-            AssociationField::new("city", "Municipio")->setSortable(true)->setColumns(4),
+            //AssociationField::new("city", "Municipio")->setSortable(true)->setColumns(4),
             FormField::addRow(),
             TextField::new("firstName", "Nombre(s)")->setSortable(true)->setColumns(4),
             TextField::new("lastName", "Apellido(s)")->setSortable(true)->setColumns(4),            
@@ -91,6 +93,7 @@ class VisitorCrudController extends AbstractCrudController
             ->add('lastName')
             ->add('birthday')
             ->add('maritalStatus')
+            ->add('mobilePhone')
             ->add('email');
     }
 }

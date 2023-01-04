@@ -83,6 +83,7 @@ class PlayDateVisitor
     public function __toString()
     {
         return $this->getVisitor()->getFirstName().' '.$this->getVisitor()->getLastName();
+        //return $this->id.'';
     }
 
     public function isResponsable(): ?bool
@@ -95,6 +96,6 @@ class PlayDateVisitor
         $this->responsable = $responsable;
 
         return $this;
-    }
+    }    
 
 }

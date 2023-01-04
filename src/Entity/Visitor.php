@@ -33,6 +33,8 @@ class Visitor
     public const FEMALE = "Femenino";
     public const MALE = "Masculino";
 
+    private $visitorRepository;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -162,8 +164,10 @@ class Visitor
 
     public function __toString()
     {        
-        $types = ['',self::INFANT, self::ADULT];
-        return $this->firstName.' '.$this->lastName.' - '.$types[$this->type].' ('.date_format($this->birthday,'d/m/Y').')';
+        // $types = ['',self::INFANT, self::ADULT];
+        // return $this->firstName.' '.$this->lastName.' - '.$types[$this->type].' ('.date_format($this->birthday,'d/m/Y').')';
+
+        return $this->firstName.' '.$this->lastName;
     }
 
     /**
@@ -243,5 +247,5 @@ class Visitor
 
         return $this;
     }
-
+    
 }

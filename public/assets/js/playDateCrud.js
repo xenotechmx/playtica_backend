@@ -31,9 +31,105 @@ $(function() {
         $('#new-PlayDate-form').submit(function(e){            
             $("#PlayDate_startsAt_hour, #PlayDate_startsAt_minute, #PlayDate_endsAt_hour, #PlayDate_endsAt_minute").prop( "disabled", false );            
         });
-
-    }
+    }  
 });
+
+$(document).on('keyup', '.visitorFirstName, .visitorLastName', function() {
+    let index = $(this).attr('id');
+    index = index.split('_');
+    index = index[2];
+
+    const firstName = $('#PlayDate_playDateVisitors_1_firstName').val();
+    const lastName = $('#PlayDate_playDateVisitors_1_lastName').val();
+
+    //
+    showAutoCompleteInfant(firstName, lastName, index);
+});
+
+
+$(document).on('keyup', '.visitorMobilePhone', function() {
+    const mobilePhone = $(this).val();
+    let index = $(this).attr('id');
+    index = index.split('_');
+    index = index[2];
+    showAutoCompleteAdult(mobilePhone, index);
+});
+
+$(document).on('change', '.visitorTypeSelect', function() {
+    let index = $(this).attr('id');
+    index = index.split('_');
+    index = index[2];
+    showHideVisitorFields(index);
+});
+
+function showAutoCompleteInfant(mobilePhone, index){
+    // if(mobilePhone.length >= 5){
+    //     $.ajax({
+    //         url: "api/find_visitor_mobile",
+    //         dataType: "json",
+    //         method: 'post',
+    //         data: {'mobilePhone': mobilePhone},
+    //         headers: {
+    //             'X-Auth-Token' : plt
+    //        },
+    //        async: false
+    //     }).done(function(response){
+    //         console.log(response, response.length, response[0]), index;
+    //         if(response.length == 1){
+    //             visitor = response[0];
+    //             $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').val(visitor.mobilePhone);
+    //             $('#PlayDate_playDateVisitors_'+index+'_firstName').val(visitor.firstName);
+    //             $('#PlayDate_playDateVisitors_'+index+'_lastName').val(visitor.lastName);
+    //             $('#PlayDate_playDateVisitors_'+index+'_birthday').val(moment(visitor.birthday.date).format("YYYY-MM-DD"));
+    //             $('#PlayDate_playDateVisitors_'+index+'_gender').val(visitor.gender);
+    //         }
+    //     });
+    // }
+}
+
+function showAutoCompleteAdult(mobilePhone, index){
+    if(mobilePhone.length >= 5){
+        $.ajax({
+            url: "api/find_visitor_mobile",
+            dataType: "json",
+            method: 'post',
+            data: {'mobilePhone': mobilePhone},
+            headers: {
+                'X-Auth-Token' : plt
+           },
+           async: false
+        }).done(function(response){
+            console.log(response, response.length, response[0]), index;
+            if(response.length == 1){
+                visitor = response[0];
+                $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').val(visitor.mobilePhone);
+                $('#PlayDate_playDateVisitors_'+index+'_firstName').val(visitor.firstName);
+                $('#PlayDate_playDateVisitors_'+index+'_lastName').val(visitor.lastName);
+                $('#PlayDate_playDateVisitors_'+index+'_birthday').val(moment(visitor.birthday.date).format("YYYY-MM-DD"));
+                $('#PlayDate_playDateVisitors_'+index+'_gender').val(visitor.gender);
+            }
+        });
+    }
+}
+
+function showHideVisitorFields(index){
+    let type = $('#PlayDate_playDateVisitors_'+index+'_type').val();
+    let visitorType = type == 1 ? 'infant' : 'adult';
+
+    if (visitorType == 'infant'){
+        $('#PlayDate_playDateVisitors_'+index+'_responsable').val(0); // responsable
+        $('#PlayDate_playDateVisitors_'+index+'_responsable').parent().parent().hide(); // responsable
+
+        $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').val(''); // mobile phone
+        $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').parent().parent().hide(); // mobile phone
+        $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').removeAttr('required'); // mobile phone
+
+    } else if (visitorType == 'adult'){
+        $('#PlayDate_playDateVisitors_'+index+'_responsable').parent().parent().show(); // responsable
+        $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').parent().parent().show(); // mobile phone
+        $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').attr('required','true'); // mobile phone
+    }
+}
 
 function populateAvailableHours(){    
     let branch = $('#PlayDate_branch').val();
@@ -96,4 +192,13 @@ function calculateEndHour(){
         $("#PlayDate_startsAt_hour, #PlayDate_startsAt_minute, #PlayDate_endsAt_hour, #PlayDate_endsAt_minute").val('');
         $("#PlayDate_startsAt_hour, #PlayDate_startsAt_minute").prop( "disabled", true );
     }
+}
+
+function convertFormToJSON(form) {
+    return $(form)
+        .serializeArray()
+        .reduce(function (json, { name, value }) {
+        json[name] = value;
+        return json;
+    }, {});
 }

@@ -12,6 +12,7 @@ use App\Controller\Admin\BranchCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\PlayDateCrudController;
+use App\Entity\PlayDateVisitor;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
@@ -24,8 +25,9 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        $routeBuilder = $this->get(AdminUrlGenerator::class);
-        return $this->redirect($routeBuilder->setController(PlayDateCrudController::class)->generateUrl());
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);        
+        return $this->redirect($adminUrlGenerator->setController(PlayDateCrudController::class)->generateUrl());
+        
     }
 
     public function configureDashboard(): Dashboard

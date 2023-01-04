@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Fare;
 use App\Entity\Visitor;
+use App\Repository\VisitorRepository;
 
 use DateTime;
 use App\Entity\Branch;
@@ -27,7 +28,7 @@ class PlayDate
         'Pago con tarjeta en sucursal' => 2,
         'Pago con tarjeta en línea' => 3
     ];
-
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -55,7 +56,7 @@ class PlayDate
      * @ORM\OneToMany(targetEntity=PlayDateVisitor::class, mappedBy="playDate", orphanRemoval=true, cascade={"persist"})
      */
     private $playDateVisitors;
-
+        
     /**
      * @ORM\Column(type="integer")
      */
@@ -75,12 +76,11 @@ class PlayDate
      * @ORM\Column(type="float", nullable=true)
      */
     private $price;
-
-
+   
     public function __construct()
     {        
         $this->playDateVisitors = new ArrayCollection();
-        $this->playDateProducts = new ArrayCollection();
+        $this->playDateProducts = new ArrayCollection();        
     }
    
     public function getId(): ?int
@@ -131,7 +131,7 @@ class PlayDate
     {
         return $this->playDateVisitors;
     }
-
+    
     public function addPlayDateVisitor(PlayDateVisitor $playDateVisitor): self
     {
         if (!$this->playDateVisitors->contains($playDateVisitor)) {
@@ -281,4 +281,50 @@ class PlayDate
         
     }
 
+    public function binPlayDateVisitor(PlayDate $playDate, $request, VisitorRepository $visitorRepository): array{
+        foreach ($playDate->getPlayDateProducts() as $playDateProduct){
+            $playDateProduct->setPrice( $playDateProduct->getProduct()->getPrice() );
+        }
+
+        foreach ($playDate->getPlayDateVisitors() as $playDateVisitor){
+            $playDate->removePlayDateVisitor($playDateVisitor);
+        }
+        
+        if(empty($request['PlayDate']['playDateVisitors'])){
+            return array(
+                'type' => 'error',
+                'message' => 'Debe agregar al menos dos visitantes a la cita'
+            );
+        }
+
+        $visitors = $request['PlayDate']['playDateVisitors'];
+        foreach($visitors as $v){
+            $visitor = $visitorRepository->findByMobilePhone($v['mobilePhone']);
+            if(empty($visitor)){
+                $visitor = new Visitor;                
+            }
+            $visitor->setType($v['type']);
+            $visitor->setMobilePhone($v['mobilePhone']);
+            $visitor->setFirstName($v['firstName']);
+            $visitor->setLastName($v['lastName']);
+            $visitor->setGender($v['gender']);
+            $birthday = DateTime::createFromFormat('Y-m-d', $v['birthday']);
+            $visitor->setBirthday($birthday);
+
+            $playDateVisitor = new PlayDateVisitor;
+            $playDateVisitor->setVisitor($visitor);
+            $playDateVisitor->setPlayDate($playDate);
+            $playDateVisitor->setResponsable(false);
+            if ($v['responsable'] == 1)
+                $playDateVisitor->setResponsable(true);
+            
+            $playDate->addPlayDateVisitor($playDateVisitor);
+        }
+        $playDate->calculatePrice();
+
+        return array(
+            'type' => 'success',
+            'message' => 'Cita guardada con éxito'
+        );
+    }
 }
