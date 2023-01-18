@@ -117,15 +117,11 @@ function showHideVisitorFields(index){
     let visitorType = type == 1 ? 'infant' : 'adult';
 
     if (visitorType == 'infant'){
-        $('#PlayDate_playDateVisitors_'+index+'_responsable').val(0); // responsable
-        $('#PlayDate_playDateVisitors_'+index+'_responsable').parent().parent().hide(); // responsable
-
         $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').val(''); // mobile phone
         $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').parent().parent().hide(); // mobile phone
         $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').removeAttr('required'); // mobile phone
 
-    } else if (visitorType == 'adult'){
-        $('#PlayDate_playDateVisitors_'+index+'_responsable').parent().parent().show(); // responsable
+    } else if (visitorType == 'adult'){        
         $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').parent().parent().show(); // mobile phone
         $('#PlayDate_playDateVisitors_'+index+'_mobilePhone').attr('required','true'); // mobile phone
     }

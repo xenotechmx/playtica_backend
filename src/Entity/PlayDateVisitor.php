@@ -33,12 +33,7 @@ class PlayDateVisitor
      * @ORM\JoinColumn(nullable=false)
      */
     private $visitor;
-
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    private $responsable;
-
+  
     public function getId(): ?int
     {
         return $this->id;
@@ -84,18 +79,6 @@ class PlayDateVisitor
     {
         return $this->getVisitor()->getFirstName().' '.$this->getVisitor()->getLastName();
         //return $this->id.'';
-    }
-
-    public function isResponsable(): ?bool
-    {
-        return $this->responsable;
-    }
-
-    public function setResponsable(bool $responsable): self
-    {
-        $this->responsable = $responsable;
-
-        return $this;
-    }    
+    }   
 
 }

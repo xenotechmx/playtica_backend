@@ -41,17 +41,7 @@ class PlayDateVisitorType extends AbstractType
                 ],
                 'attr' => ['class' => 'visitorTypeSelect'],
                 //'row_attr' => [ 'class' => 'col-md-4' ]
-            ])
-            ->add('responsable', ChoiceType::class, [
-                'label' => 'Responsable',
-                'required' => true,
-                'mapped' => false,
-                'choices'  => [
-                    'Si' => true,
-                    'No' => false
-                ],
-                //'row_attr' => [ 'class' => 'col-md-4' ]
-            ])
+            ])            
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'required' => true,

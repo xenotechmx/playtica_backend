@@ -9,6 +9,7 @@ use App\Repository\VisitorRepository;
 use DateTime;
 use App\Entity\Branch;
 use App\Entity\PlayDateVisitor;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PlayDateRepository;
 use App\Repository\ProductRepository;
@@ -42,7 +43,7 @@ class PlayDate
     private $startsAt;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     private $endsAt;
 
@@ -76,6 +77,11 @@ class PlayDate
      * @ORM\Column(type="float", nullable=true)
      */
     private $price;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $hours;
    
     public function __construct()
     {        
@@ -227,10 +233,9 @@ class PlayDate
 
     public function calculatePrice()
     {
-        $dayFare = ($this->getDate()->format('N') >= 1 && $this->getDate()->format('N') <= 4) ? 1 : 2 ; //mon to thur or fri to sun
-        $timeDiff = date_diff($this->endsAt, $this->startsAt);  //1 hour, 2 hours or full day
-        $hours = ($timeDiff->m > 0) ? 1 + $timeDiff->h : $timeDiff->h ; //rounding to up time
-        $timeFare = ($hours > 2) ? 3 : $hours ;
+        $dayFare = ($this->getDate()->format('N') >= 1 && $this->getDate()->format('N') <= 4) ? 1 : 2 ; // 1 -> mon to thur, 2 -> fri to sun        
+        $hours = $this->getHours(); //rounding to up time
+        $timeFare = ($hours == 0) ? 3 : $hours ;
                 
         $enfantFares = $this->getBranch()->getFares();
         $enfantCriteria = Criteria::create()
@@ -267,18 +272,15 @@ class PlayDate
     }
 
     public function getHours()
-    {
-        $hours = 1;
-        if(!empty($this->endsAt)){
-            $timeDiff = date_diff($this->endsAt, $this->startsAt);
-            $hours = ($timeDiff->m > 0) ? 1 + $timeDiff->h : $timeDiff->h ; //rounding to up time            
-        }
-        return $hours;
+    {       
+        return $this->hours;
     }
 
-    public function setHours(?int $hours)
+    public function setHours(?int $hours): self
     {
-        
+        $this->hours = $hours;
+
+        return $this;
     }
 
     public function binPlayDateVisitor(PlayDate $playDate, $request, VisitorRepository $visitorRepository): array{
@@ -313,11 +315,7 @@ class PlayDate
 
             $playDateVisitor = new PlayDateVisitor;
             $playDateVisitor->setVisitor($visitor);
-            $playDateVisitor->setPlayDate($playDate);
-            $playDateVisitor->setResponsable(false);
-            if ($v['responsable'] == 1)
-                $playDateVisitor->setResponsable(true);
-            
+            $playDateVisitor->setPlayDate($playDate);                        
             $playDate->addPlayDateVisitor($playDateVisitor);
         }
         $playDate->calculatePrice();
