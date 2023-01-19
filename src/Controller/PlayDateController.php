@@ -56,11 +56,19 @@ class PlayDateController extends AbstractController
         return new JsonResponse($playdate[0], Response::HTTP_OK);
     }
 
+    /**
+     * @Route("/api/get_price", name="api_get_price", methods={"GET"})
+     */
+    public function getPrice(Request $request): JsonResponse
+    {
+        $response = $this->savePlayDate($request, false);
+        return new JsonResponse($response, Response::HTTP_OK);
+    }
 
     /**
      * @Route("/api/save_play_date", name="api_save_playdate", methods={"POST"})
      */
-    public function savePlayDate(Request $request): JsonResponse
+    public function savePlayDate(Request $request, $save=true)
     {
         $data = json_decode($request->getContent(), true);
         $branch = $this->branchRepository->find($data['branch']);
@@ -140,32 +148,45 @@ class PlayDateController extends AbstractController
             }
 
             $visitor->setType($visitorType);
-            $this->manager->persist($visitor);
+
+            if($save === true)
+                $this->manager->persist($visitor);
 
             $newPlayDateVisitor = new PlayDateVisitor;
             $newPlayDateVisitor->setPlayDate($newPlayDate);
             $newPlayDateVisitor->setVisitor($visitor);        
 
             $newPlayDateVisitor->setPrice(0); //temporal price
-            $this->manager->persist($newPlayDateVisitor);
+
+            if($save === true)
+                $this->manager->persist($newPlayDateVisitor);
 
             $newPlayDate->addPlayDateVisitor($newPlayDateVisitor);
         }
 
-        $this->manager->persist($newPlayDate);
-        if(!empty($newPlayDateProduct)){
+        if($save === true)
+            $this->manager->persist($newPlayDate);
+
+        if(!empty($newPlayDateProduct) && $save === true){
             $this->manager->persist($newPlayDateProduct);
         }
         
         $newPlayDate->calculatePrice();
-        $this->manager->persist($newPlayDate);
-        $this->manager->flush();
+
+        if($save === true)
+            $this->manager->persist($newPlayDate);
+
+        if($save === true)
+            $this->manager->flush();
 
         $response = [];        
         $response['price'] = number_format($newPlayDate->getPrice(),2);
         $response['playdate_id'] = $newPlayDate->getId();
 
         $response['success'] = (!empty($response['price'])) ? true : false;
+
+        if($save === false)
+            return $response;
 
         return new JsonResponse($response, Response::HTTP_OK);
     }

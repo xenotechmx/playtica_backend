@@ -267,7 +267,10 @@ class PlayDate
                 $playDateVisitor->setPrice($adultFare->getPrice());
                 $totalPrice += $adultFare->getPrice();
             }
-        }        
+        }
+
+        //TODO, add products to price
+
         $this->setPrice($totalPrice);
     }
 
