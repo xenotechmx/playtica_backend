@@ -57,7 +57,7 @@ class PlayDateController extends AbstractController
     }
 
     /**
-     * @Route("/api/get_price", name="api_get_price", methods={"GET"})
+     * @Route("/api/get_price", name="api_get_price", methods={"POST"})
      */
     public function getPrice(Request $request): JsonResponse
     {
