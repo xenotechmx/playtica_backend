@@ -71,7 +71,7 @@ class VisitorCrudController extends AbstractCrudController
             FormField::addRow(),
             TextField::new("firstName", "Nombre(s)")->setSortable(true)->setColumns(4),
             TextField::new("lastName", "Apellido(s)")->setSortable(true)->setColumns(4),            
-            ChoiceField::new("gender", "Género")->setSortable(true)->setColumns(4)->autocomplete()->setChoices([
+            ChoiceField::new("gender", "Nuevo campo")->setSortable(true)->setColumns(4)->autocomplete()->setChoices([
                 Visitor::UNDEFINED => Visitor::GENDER_UNDEFINED,
                 Visitor::FEMALE => Visitor::GENDER_FEMALE,
                 Visitor::MALE => Visitor::GENDER_MALE
