@@ -37,9 +37,9 @@ class PlayDateCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->add(Crud::PAGE_NEW, Action::INDEX)
+        return $actions            
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->disable(Action::NEW)
             ->disable(Action::DELETE);
     }
 
@@ -78,17 +78,21 @@ class PlayDateCrudController extends AbstractCrudController
                         
             FormField::addRow(),
 
-            CollectionField::new("playDateVisitors", "Visitantes")
-                ->setEntryType(\App\Form\PlayDateVisitorType::class)
-                ->allowAdd(true)
-				->setColumns(6)
-				->renderExpanded(),           
+            AssociationField::new('playDateVisitors', 'Visitantes')
+                    //->setCrudController(VisitorCrudController::class)
+                    ->setColumns(6)
+                    ->setFormTypeOptions([
+                        'by_reference' => false,
+                    ])
+                    ->autocomplete(),
 
-            // CollectionField::new("playDateProducts", "Productos" )
-			// 	->setEntryType(\App\Form\PlayDateProductType::class)
-			// 	->renderExpanded()
-			// 	->setColumns(12)
-			// 	->renderExpanded(),
+            // AssociationField::new('playDateProducts', 'Productos')
+            //         //->setCrudController(VisitorCrudController::class)
+            //         ->setColumns(6)
+            //         ->setFormTypeOptions([
+            //             'by_reference' => false,
+            //         ])
+            //         ->autocomplete(),
 
             NumberField::new('price', 'Precio')->setSortable(true)->setNumDecimals(2)->setNumberFormat('$%.2d')->hideOnForm(),
             

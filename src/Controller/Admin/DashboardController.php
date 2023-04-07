@@ -38,8 +38,11 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {            
-        yield MenuItem::linkToCrud('Visitantes', 'fas fa-child', Visitor::class);
         yield MenuItem::subMenu('Crear una cita de juego', 'fas fa-dice')->setCssClass('btn-reservation-submenu');
+        yield MenuItem::section('');
+
+        yield MenuItem::linkToCrud('Visitantes', 'fas fa-child', Visitor::class);
+        yield MenuItem::linkToCrud('Citas de juego', 'fas fa-puzzle-piece', PlayDate::class);
         yield MenuItem::linkToCrud('Sucursales', 'fas fa-warehouse', Branch::class)->setPermission('ROLE_ADMIN');
         yield MenuItem::linkToCrud('Horarios', 'fas fa-clock', Schedule::class)->setPermission('ROLE_ADMIN');
         yield MenuItem::linkToCrud('Productos', 'fas fa-socks', Product::class)->setPermission('ROLE_ADMIN');
