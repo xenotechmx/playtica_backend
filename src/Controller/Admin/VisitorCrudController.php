@@ -91,8 +91,7 @@ class VisitorCrudController extends AbstractCrudController
         return $filters
             ->add('firstName')
             ->add('lastName')
-            ->add('birthday')
-            ->add('maritalStatus')
+            ->add('birthday')            
             ->add('mobilePhone')
             ->add('email');
     }
