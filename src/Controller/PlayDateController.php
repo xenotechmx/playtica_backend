@@ -182,7 +182,7 @@ class PlayDateController extends AbstractController
             $this->manager->flush();
 
         $response = [];        
-        $response['price'] = number_format($newPlayDate->getPrice(),2);
+        $response['price'] = $newPlayDate->getPrice();
         $response['playdate_id'] = $newPlayDate->getId();
 
         $response['success'] = (!empty($response['price'])) ? true : false;
