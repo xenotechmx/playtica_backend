@@ -19,6 +19,8 @@
         "symfony/dotenv": "6.1.*",
         "symfony/flex": "^1.19",
         "symfony/framework-bundle": "6.1.*",
+        "symfony/google-mailer": "6.1.*",
+        "symfony/mailer": "6.1.*",
         "symfony/maker-bundle": "1.43",
         "symfony/runtime": "6.1.*",
         "symfony/security-bundle": "^6.1",
@@ -69,7 +71,8 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.1.*"
+            "require": "6.1.*",
+            "docker": false
         }
     },
     "require-dev": {
