@@ -332,4 +332,12 @@ class PlayDate
             'message' => 'Cita guardada con éxito'
         );
     }
+
+    public function getHumanDate(){
+        $label=$this->getDate()->format('d/m/Y') ;
+        if($this->hours > 0){
+            $label.=' '.$this->getStartsAt()->format('h:i a').' - '.$this->getEndsAt()->format('h:i a');
+        }
+        return $label;
+    }
 }
