@@ -88,5 +88,26 @@ class UserFixtures extends Fixture
         $user->setActive(true);
         $manager->persist($user);
         $manager->flush();
+
+
+        $user = new User();
+        $user->setUsername('elena.franco');
+        $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
+        $user->setPassword($password);
+        $user->setApiToken(sha1(mt_rand(1, 90000) . 'SALT'));
+        $user->setRoles(['ROLE_ADMIN']);        
+        $user->setActive(true);
+        $manager->persist($user);
+        $manager->flush();
+
+        $user = new User();
+        $user->setUsername('claudia.gil');
+        $password = $this->hasher->hashPassword($user, 'Pl4yt1c42022!');
+        $user->setPassword($password);
+        $user->setApiToken(sha1(mt_rand(1, 90000) . 'SALT'));
+        $user->setRoles(['ROLE_ADMIN']);        
+        $user->setActive(true);
+        $manager->persist($user);
+        $manager->flush();
     }
 }
