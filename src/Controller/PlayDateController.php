@@ -96,12 +96,14 @@ class PlayDateController extends AbstractController
         if(!empty($data['products'])){
             foreach($data['products'] as $productJson){
                 $product =  $this->productRepository->find($productJson['productId']);
-                if(!empty($product)){
+                if(!empty($product) && $productJson['checked'] == 'on'){
                     $newPlayDateProduct = new PlayDateProduct;
                     $newPlayDateProduct->setPlayDate($newPlayDate);
                     $newPlayDateProduct->setProduct($product);
                     $newPlayDateProduct->setPrice($product->getPrice());
                     $newPlayDateProduct->setQuantity($productJson['quantity']);
+
+                    $newPlayDate->addPlayDateProduct($newPlayDateProduct);
                 }
             }
         }
