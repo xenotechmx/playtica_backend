@@ -77,7 +77,7 @@ class PlayDateVisitor
 
     public function __toString()
     {
-        return $this->getVisitor()->getFirstName().' '.$this->getVisitor()->getLastName();
+        return $this->getVisitor()->getFirstName().' ('.$this->getVisitor()->getTypeLabel('short').')';
         //return $this->id.'';
     }   
 

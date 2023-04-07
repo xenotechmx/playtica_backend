@@ -26,8 +26,7 @@ class PlayDate
     public const PAYMENT_STATUSES = [
         'Pendiente de pago' => 0,
         'Pago en efectivo' => 1,
-        'Pago con tarjeta en sucursal' => 2,
-        'Pago con tarjeta en línea' => 3
+        'Pago con tarjeta en sucursal' => 2
     ];
     
     /**

@@ -132,6 +132,20 @@ class Visitor
         return $this->type;
     }
 
+    public function getTypeLabel($length = 'long'): ?string
+    {
+        if($this->type == $this::TYPE_INFANT){
+            if($length == 'short')
+                return 'M';
+            return $this::INFANT;
+        }
+        else if($this->type == $this::TYPE_ADULT){
+            if($length == 'short')
+                return 'A';
+            return $this::ADULT;            
+        }
+    }
+
     public function setType(int $type): self
     {
         $this->type = $type;

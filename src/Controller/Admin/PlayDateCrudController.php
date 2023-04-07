@@ -39,7 +39,7 @@ class PlayDateCrudController extends AbstractCrudController
     {
         return $actions            
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->disable(Action::NEW)
+            ->disable(Action::NEW)            
             ->disable(Action::DELETE);
     }
 
@@ -49,7 +49,7 @@ class PlayDateCrudController extends AbstractCrudController
             ->showEntityActionsInlined()
             ->setEntityLabelInPlural("Citas de juego")
             ->setEntityLabelInSingular("Cita de juego")
-            ->setSearchFields(['startsAt', 'endsAt', 'branch.name'])
+            ->setSearchFields(['id','startsAt', 'endsAt', 'branch.name', 'playDateVisitors.visitor.firstName', 'playDateVisitors.visitor.lastName'])
             ->setDefaultSort(['id' => 'DESC'])
             ->setPageTitle(
                 "detail",
@@ -64,27 +64,23 @@ class PlayDateCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IntegerField::new('id', 'Folio')->setSortable(true)->hideOnForm(),            
+            IntegerField::new('id', 'Folio')->setSortable(true)->setFormTypeOption('disabled','disabled'),            
             AssociationField::new('branch', 'Sucursal')->setColumns(3)->setCrudController(BranchCrudController::class)->setColumns(3),
             DateField::new('date', 'Fecha')->setSortable(true)->setColumns(3)->setFormat('dd MMM yyyy')->setFormTypeOptions(['years'=>range((int) date('Y') +1 , (int) date('Y'))]),
 
             FormField::addRow(),
 
-            ChoiceField::new('hours', 'Horas')->setColumns(3)->setChoices([1=>1, 2=>2, 'Todo el día'=>0])->renderAsNativeWidget()->onlyOnForms(),
-            TimeField::new('startsAt', 'Inicia')->setSortable(true)->setColumns(3)->renderAsChoice()->setFormat('hh:mm aaa'),            
-            TimeField::new('endsAt', 'Finaliza')->setSortable(true)->setColumns(3)->renderAsChoice()->setFormat('hh:mm aaa'),
+            ChoiceField::new('hours', 'Horas')->setColumns(3)->setChoices([1=>1, 2=>2, 'Todo el día'=>0])->renderAsNativeWidget()->setFormTypeOption('disabled','disabled'),
+            TimeField::new('startsAt', 'Inicia')->setSortable(true)->setColumns(3)->renderAsChoice()->setFormat('hh:mm aaa')->setFormTypeOption('disabled','disabled'),            
+            TimeField::new('endsAt', 'Finaliza')->setSortable(true)->setColumns(3)->renderAsChoice()->setFormat('hh:mm aaa')->setFormTypeOption('disabled','disabled'),
                         
             ChoiceField::new('paymentStatus', 'Pago')->setSortable(true)->setColumns(2)->setChoices(PlayDate::PAYMENT_STATUSES)->renderAsNativeWidget(),
                         
             FormField::addRow(),
 
-            AssociationField::new('playDateVisitors', 'Visitantes')
-                    //->setCrudController(VisitorCrudController::class)
-                    ->setColumns(6)
-                    ->setFormTypeOptions([
-                        'by_reference' => false,
-                    ])
-                    ->autocomplete(),
+            AssociationField::new('playDateVisitors', 'No. Visitantes')->hideOnForm(),
+            CollectionField::new('playDateVisitors', 'Visitantes')->allowAdd(false)->allowDelete(false)->setFormTypeOption('disabled','disabled'),
+
 
             // AssociationField::new('playDateProducts', 'Productos')
             //         //->setCrudController(VisitorCrudController::class)
@@ -94,17 +90,17 @@ class PlayDateCrudController extends AbstractCrudController
             //         ])
             //         ->autocomplete(),
 
-            NumberField::new('price', 'Precio')->setSortable(true)->setNumDecimals(2)->setNumberFormat('$%.2d')->hideOnForm(),
+            NumberField::new('price', 'Precio')->setSortable(true)->setNumDecimals(2)->setNumberFormat('$%.2d')->setFormTypeOption('disabled','disabled'),
             
         ];
     }
 
     public function configureFilters(Filters $filters): Filters{
         return $filters
+            ->add('id')
             ->add('startsAt')
             ->add('endsAt')
-            ->add('branch')
-            ->add('playDateVisitors');
+            ->add('branch');
     }
 
 }
