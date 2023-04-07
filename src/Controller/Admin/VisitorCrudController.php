@@ -71,19 +71,19 @@ class VisitorCrudController extends AbstractCrudController
             FormField::addRow(),
             TextField::new("firstName", "Nombre(s)")->setSortable(true)->setColumns(4),
             TextField::new("lastName", "Apellido(s)")->setSortable(true)->setColumns(4),            
-            ChoiceField::new("gender", "Nuevo campo")->setSortable(true)->setColumns(4)->autocomplete()->setChoices([
-                Visitor::UNDEFINED => Visitor::GENDER_UNDEFINED,
-                Visitor::FEMALE => Visitor::GENDER_FEMALE,
-                Visitor::MALE => Visitor::GENDER_MALE
-            ]),            
+            // ChoiceField::new("gender", "Género")->setSortable(true)->setColumns(4)->autocomplete()->setChoices([
+            //     Visitor::UNDEFINED => Visitor::GENDER_UNDEFINED,
+            //     Visitor::FEMALE => Visitor::GENDER_FEMALE,
+            //     Visitor::MALE => Visitor::GENDER_MALE
+            // ]),
             
             TextField::new("email", "Correo electrónico")->setSortable(true)->setColumns(4),             
             TelephoneField::new("mobilePhone", "Teléfono celular")->setSortable(true)->setColumns(4),             
-            ChoiceField::new("maritalStatus", "Estado civil")->setSortable(true)->setColumns(4)->autocomplete()->setChoices([
-                Visitor::OTHER => Visitor::TYPE_MARITAL_STATUS_OTHER,
-                Visitor::MARRIED => Visitor::TYPE_MARITAL_STATUS_MARRIED,
-                Visitor::SINGLE => Visitor::TYPE_MARITAL_STATUS_SINGLE
-            ])->renderAsNativeWidget(),
+            // ChoiceField::new("maritalStatus", "Estado civil")->setSortable(true)->setColumns(4)->autocomplete()->setChoices([
+            //     Visitor::OTHER => Visitor::TYPE_MARITAL_STATUS_OTHER,
+            //     Visitor::MARRIED => Visitor::TYPE_MARITAL_STATUS_MARRIED,
+            //     Visitor::SINGLE => Visitor::TYPE_MARITAL_STATUS_SINGLE
+            // ])->renderAsNativeWidget(),
         ];
     }
 
