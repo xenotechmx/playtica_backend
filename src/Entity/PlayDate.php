@@ -269,7 +269,6 @@ class PlayDate
             }
         }
 
-        //TODO, add products to price
         $productsPrice = 0;
         foreach($this->playDateProducts as $product){
             $productsPrice += $product->getPrice()/100 * $product->getQuantity();
