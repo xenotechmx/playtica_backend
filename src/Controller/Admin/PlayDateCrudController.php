@@ -100,7 +100,8 @@ class PlayDateCrudController extends AbstractCrudController
             ->add('id')
             ->add('startsAt')
             ->add('endsAt')
-            ->add('branch');
+            ->add('branch')
+            ->add('paymentStatus');
     }
 
 }
