@@ -28,7 +28,13 @@ class BranchController extends AbstractController
      */
     public function getAll(): Response
     {
-        $query = $this->branchRepository->createQueryBuilder('c')->getQuery();
+        //$query = $this->branchRepository->createQueryBuilder('c')->getQuery();
+        $query = $this->branchRepository->createQueryBuilder('c') //remove this query and restore the above to release all branches
+                ->where('c.name = :name')
+                ->setParameter('name', 'Cumbres')
+                ->setMaxResults(1)
+                ->getQuery();
+
         $branches = $query->getResult(Query::HYDRATE_ARRAY);
 
         return new JsonResponse($branches, Response::HTTP_OK);
