@@ -73,9 +73,19 @@ class PlayDateController extends AbstractController
      * @Route("/api/save_play_date", name="api_save_playdate", methods={"POST"})
      */
     public function savePlayDate(Request $request, $save=true)
-    {
+    {       
         $data = json_decode($request->getContent(), true);
+        if(empty($data['branch'])){
+            return new JsonResponse([
+                'error' => 'Sucursal y fecha equivocada, elija nuevamente'
+            ], Response::HTTP_OK);
+        }
         $branch = $this->branchRepository->find($data['branch']);
+        if(empty($branch)){
+            return new JsonResponse([
+                'error' => 'Sucursal y fecha equivocada, elija nuevamente'
+            ], Response::HTTP_OK);
+        }
         $startDate = \DateTime::createFromFormat('Y-m-d',$data['date']);
         $startsAt = \DateTime::createFromFormat('H:i', $data['start']);
         $hours = ($data['hours'] > 0 && $data['hours']<=2) ? $data['hours'] : 0 ;
@@ -179,28 +189,29 @@ class PlayDateController extends AbstractController
         
         $newPlayDate->calculatePrice();
 
-        if($save === true)
+        if($save === true){
             $this->manager->persist($newPlayDate);
-
-        if($save === true)
             $this->manager->flush();
-
-        $this->sendEmail($newPlayDate);
+            $this->sendEmail($newPlayDate);
+        }
 
         $response = [];        
         $response['price'] = $newPlayDate->getPrice();
         $response['playdate_id'] = $newPlayDate->getId();
-
-        $response['success'] = (!empty($response['price'])) ? true : false;
+        $response['success'] = 1;
 
         if($save === false)
             return $response;
 
-        return new JsonResponse($response, Response::HTTP_OK);
+        return new JsonResponse($response, Response::HTTP_OK);       
+        
     }
 
     public function sendEmail(PlayDate $playDate)
     {
+        if(empty($playDate->getId()))
+            return;
+
         foreach($playDate->getPlayDateVisitors() as $playDateVisitor){
             $visitor = $playDateVisitor->getVisitor();
             if($visitor->getType() == Visitor::TYPE_ADULT){
