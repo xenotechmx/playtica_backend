@@ -64,7 +64,7 @@ class Visitor
     private $birthday;
 
     /**
-     * @ORM\Column(type="integer", options={"default" : 0})
+     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
      */
     private $gender;
 
